@@ -1,12 +1,15 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import dayjs from 'dayjs';
+import { Repository } from 'redis-om';
+
+import { todoSchema, Todo } from '../schema/todo.js';
 
 const router = express.Router();
 const jsonParser = bodyParser.json({ extended: false });
 
-const toFormatDateTime = (dateObject) => {
-    return dayjs(dateObject).format("DD/MM/YYYY HH:mm");
+const getCurrentTodoNumber = () => {
+  return 1;
 };
 
 /*
@@ -33,15 +36,21 @@ router.post("/create", jsonParser, (req, res) => {
 
     const todoDescription = req.body.description || "";
     const todoCreatedAt = Date.now();
+
+    const todo = {
+        id: getCurrentTodoNumber() || 0,
+        name: todoName,
+        description: todoDescription,
+        done: false,
+        createdAt: todoCreatedAt
+    };
     
     // TODO: Save the Todo object into Redis database.
 
-    res.json({
+    res.json(
         // TODO: Add returning todo ID, and status.
-        name: todoName,
-        description: todoDescription,
-        createdAt: toFormatDateTime(todoCreatedAt),
-    })
+        todo
+    );
 });
 
 /*

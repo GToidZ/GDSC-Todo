@@ -1,7 +1,9 @@
 import express from 'express';
+import { getRedis } from './redis.js';
 import todoRouter from './routes/todo.js';
 
 const app = express();
+let redis = await getRedis();
 
 app.all("/", (_, res) => {
     res.send("Welcome to GDSC!");
