@@ -14,7 +14,7 @@ const toFormatDateTime = (dateObject) => {
  *  Returns all todo entries
  */
 router.get("/", (_, res) => {
-    res.send("TODO: GET / All todo entries");
+    res.send("TODO: GET /");
 });
 
 /*
@@ -42,6 +42,22 @@ router.post("/create", jsonParser, (req, res) => {
         description: todoDescription,
         createdAt: toFormatDateTime(todoCreatedAt),
     })
+});
+
+/*
+ *  PUT /edit/:id
+ *  Update todo of `id` to new object.
+ */
+router.put("/edit/:id", jsonParser, (req, res) => {
+    res.send(`TODO: PUT /edit/${req.params.id}`);
+});
+
+/*
+ *  DELETE /delete/:id
+ *  Delete todo of `id` from database.
+ */
+router.delete("/delete/:id", (req, res) => {
+    res.send(`TODO: DELETE /delete/${req.params.id}`);
 });
 
 export default router;
