@@ -60,11 +60,39 @@ router.post("/create", jsonParser, async (req, res) => {
  *  Response should return JSON of updated Todo object.
  */
 router.put("/edit/:id", jsonParser, async (req, res) => {
-    res.send(`TODO: PUT /edit/${req.params.id}`);
+    const todoID = req.params["id"];
+
+    if (!todoID) {
+        res.status(400).json({
+            error: "You must specify a ID for Todo."
+        });
+    }
+
+    const todoName = req.body.name;
+    const todoDescription = req.body.description;
+    const todoCreatedAt = req.body.createdAt;
+    const todoDone = req.body.done;
+
+    const todo = await todoRepository.fetch(todoID);
+
+    todo.name = todoName ? todoName : todo.body.name;
+    todo.description = todoDescription ? todoDescription : todo.description;
+    todo.done = todoDone ? todoDone : todo.done;
+
+    await todoRepository.save(todo)
+
+    res.json(todo);
 });
 
 router.delete("/delete/:id", async (req, res) => {
     const todoID = req.params["id"];
+
+    if (!todoID) {
+        res.status(400).json({
+            error: "You must specify a ID for Todo."
+        });
+    }
+
     const todo = await todoRepository.fetch(todoID);
     await todoRepository.remove(todoID);
     res.json(todo);
