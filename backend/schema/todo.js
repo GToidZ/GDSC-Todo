@@ -1,12 +1,11 @@
 import { Schema, Entity } from "redis-om";
 
-class Todo extends Entity {}
+class Todo extends Entity { }
 const todoSchema = new Schema(Todo, {
-  id: { type: 'number' },
   name: { type: 'string' },
   description: { type: 'string' },
-  createdAt: { type: 'date' },
+  createdAt: { type: 'date', sortable: true },
   done: { type: 'boolean' }
 }, { dataStructure: 'JSON' });
 
-export {Todo, todoSchema};
+export { Todo, todoSchema };

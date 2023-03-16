@@ -1,23 +1,27 @@
 import express from 'express';
 import bodyParser from 'body-parser';
-import dayjs from 'dayjs';
-import { Repository } from 'redis-om';
+import { getRedis } from '../redis.js';
+import { Client, Repository } from 'redis-om';
 
-import { todoSchema, Todo } from '../schema/todo.js';
+import { todoSchema } from '../schema/todo.js';
 
 const router = express.Router();
 const jsonParser = bodyParser.json({ extended: false });
 
-const getCurrentTodoNumber = () => {
-  return 1;
-};
+/** @type { Client } */
+let redis = await getRedis();
+
+/** @type { Repository } */
+const todoRepository = await redis.fetchRepository(todoSchema);
+await todoRepository.createIndex();
 
 /*
  *  GET /
  *  Returns all todo entries
  */
-router.get("/", (_, res) => {
-    res.send("TODO: GET /");
+router.get("/", async (_, res) => {
+    const data = await todoRepository.search().returnAll();
+    res.send(data);
 });
 
 /*
@@ -25,7 +29,7 @@ router.get("/", (_, res) => {
  *  Takes a form data (name, description) and creates a new
  *  todo entry in Redis.
  */
-router.post("/create", jsonParser, (req, res) => {
+router.post("/create", jsonParser, async (req, res) => {
     const todoName = req.body.name;
 
     if (!todoName) {
@@ -35,37 +39,36 @@ router.post("/create", jsonParser, (req, res) => {
     }
 
     const todoDescription = req.body.description || "";
-    const todoCreatedAt = Date.now();
+    const todoCreatedAt = new Date(Date.now()).toISOString();
 
     const todo = {
-        id: getCurrentTodoNumber() || 0,
         name: todoName,
         description: todoDescription,
+        createdAt: todoCreatedAt,
         done: false,
-        createdAt: todoCreatedAt
     };
-    
-    // TODO: Save the Todo object into Redis database.
 
-    res.json(
-        // TODO: Add returning todo ID, and status.
-        todo
-    );
+    await todoRepository.createAndSave(todo);
+
+    res.json(todo);
 });
 
 /*
  *  PUT /edit/:id
  *  Update todo of `id` to new object.
+ *  Request body will be JSON of new Todo object (some properties might be null).
+ *  Response should return JSON of updated Todo object.
  */
-router.put("/edit/:id", jsonParser, (req, res) => {
+router.put("/edit/:id", jsonParser, async (req, res) => {
     res.send(`TODO: PUT /edit/${req.params.id}`);
 });
 
 /*
  *  DELETE /delete/:id
  *  Delete todo of `id` from database.
+ *  Response should return JSON of deleted Todo object.
  */
-router.delete("/delete/:id", (req, res) => {
+router.delete("/delete/:id", async (req, res) => {
     res.send(`TODO: DELETE /delete/${req.params.id}`);
 });
 
