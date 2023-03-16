@@ -63,13 +63,11 @@ router.put("/edit/:id", jsonParser, async (req, res) => {
     res.send(`TODO: PUT /edit/${req.params.id}`);
 });
 
-/*
- *  DELETE /delete/:id
- *  Delete todo of `id` from database.
- *  Response should return JSON of deleted Todo object.
- */
 router.delete("/delete/:id", async (req, res) => {
-    res.send(`TODO: DELETE /delete/${req.params.id}`);
+    const todoID = req.params["id"];
+    const todo = await todoRepository.fetch(todoID);
+    await todoRepository.remove(todoID);
+    res.json(todo);
 });
 
 export default router;
