@@ -1,18 +1,17 @@
 import express from 'express';
-import bodyParser from 'body-parser';
 import { getRedis } from '../redis.js';
 import { Client, Repository } from 'redis-om';
 
 import { todoSchema } from '../schema/todo.js';
 
 const router = express.Router();
-const jsonParser = bodyParser.json({ extended: false });
+const jsonParser = express.json({ extended: false });
 
 /** @type { Client } */
 let redis = await getRedis();
 
 /** @type { Repository } */
-const todoRepository = await redis.fetchRepository(todoSchema);
+const todoRepository = redis.fetchRepository(todoSchema);
 await todoRepository.createIndex();
 
 /*
@@ -60,7 +59,7 @@ router.post("/create", jsonParser, async (req, res) => {
  *  Response should return JSON of updated Todo object.
  */
 router.put("/edit/:id", jsonParser, async (req, res) => {
-    const todoID = req.params["id"];
+    const todoID = req.params.id;
 
     if (!todoID) {
         res.status(400).json({
@@ -68,16 +67,17 @@ router.put("/edit/:id", jsonParser, async (req, res) => {
         });
     }
 
-    const todoName = req.body.name;
-    const todoDescription = req.body.description;
-    const todoCreatedAt = req.body.createdAt;
-    const todoDone = req.body.done;
-
     const todo = await todoRepository.fetch(todoID);
 
-    todo.name = todoName ? todoName : todo.body.name;
-    todo.description = todoDescription ? todoDescription : todo.description;
-    todo.done = todoDone ? todoDone : todo.done;
+    if (todo.createdAt === null) {
+        res.status(404).json({
+            error: "Todo with specified ID not found."
+        });
+    }
+
+    todo.name = req.body.name ? req.body.name : todo.name;
+    todo.description = req.body.description ? req.body.description : todo.description;
+    todo.done = req.body.done ? req.body.done : todo.done;
 
     await todoRepository.save(todo)
 
@@ -90,7 +90,7 @@ router.put("/edit/:id", jsonParser, async (req, res) => {
  *  Response should return JSON of deleted Todo object.
  */
 router.delete("/delete/:id", async (req, res) => {
-    const todoID = req.params["id"];
+    const todoID = req.params.id;
 
     if (!todoID) {
         res.status(400).json({
@@ -99,6 +99,13 @@ router.delete("/delete/:id", async (req, res) => {
     }
 
     const todo = await todoRepository.fetch(todoID);
+  
+    if (todo.createdAt === null) {
+        res.status(404).json({
+            error: "Todo with specified ID not found."
+        });
+    }
+
     await todoRepository.remove(todoID);
     res.json(todo);
 });
