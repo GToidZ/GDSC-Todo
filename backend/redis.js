@@ -2,7 +2,8 @@ import * as redisModule from 'redis';
 import { Client } from 'redis-om';
 
 /** @type { Client } */
-let redis = process.env.NODE_ENV;
+let redis = undefined;
+let redisURL = process.env.REDIS_CONNECTION_URL
 let reconnectAttempts = 0;
 
 const getRedis = async () => {
@@ -16,16 +17,8 @@ const getRedis = async () => {
                     reconnectAttempts++;
                     return 1000;
                 }
-            }
-        });
-        conn.on('connect', () => console.log('Connecting to Redis...'));
-        conn.on('ready', () => console.log('Connected to Redis!'));
-        conn.on('error', err => console.log('Redis Client Error', err));
-        await conn.connect();
-        redis = new Client().use(conn);
-    } else {
-        let conn = redisModule.createClient({
-            url: redis
+            },
+            url: redisURL || undefined
         });
         conn.on('connect', () => console.log('Connecting to Redis...'));
         conn.on('ready', () => console.log('Connected to Redis!'));

@@ -8,7 +8,7 @@ let redis = await getRedis();  // Preinit Redis Client
 import todoRouter from './routes/todo.js';
 
 const app = express();
-const env = process.env.NODE_ENV;
+const env = process.env.NODE_ENV || "development";
 
 if (env == "development") {
     const debugMiddleware = (req, _, next) => {
