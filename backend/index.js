@@ -1,3 +1,6 @@
+import * as dotenv from 'dotenv';
+dotenv.config();
+
 import express from 'express';
 import { getRedis } from './redis.js';
 import { Client } from 'redis-om';

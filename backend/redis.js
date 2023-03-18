@@ -3,7 +3,7 @@ import { Client } from 'redis-om';
 
 /** @type { Client } */
 let redis = undefined;
-let redisURL = process.env.REDIS_CONNECTION_URL
+let redisURL = process.env.REDIS_CONNECTION_URL;
 let reconnectAttempts = 0;
 
 const getRedis = async () => {
