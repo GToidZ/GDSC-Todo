@@ -3,6 +3,7 @@ import { Client } from 'redis-om';
 
 /** @type { Client } */
 let redis = undefined;
+let redisURL = process.env.REDIS_CONNECTION_URL;
 let reconnectAttempts = 0;
 
 const getRedis = async () => {
@@ -16,7 +17,8 @@ const getRedis = async () => {
                     reconnectAttempts++;
                     return 1000;
                 }
-            }
+            },
+            url: redisURL || undefined
         });
         conn.on('connect', () => console.log('Connecting to Redis...'));
         conn.on('ready', () => console.log('Connected to Redis!'));
