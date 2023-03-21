@@ -40,14 +40,14 @@ router.post("/create", jsonParser, async (req, res) => {
     const todoDescription = req.body.description || "";
     const todoCreatedAt = new Date(Date.now()).toISOString();
 
-    const todo = {
+    const todoObject = {
         name: todoName,
         description: todoDescription,
         createdAt: todoCreatedAt,
         done: false,
     };
 
-    await todoRepository.createAndSave(todo);
+    const todo = await todoRepository.createAndSave(todoObject);
 
     res.json(todo);
 });
