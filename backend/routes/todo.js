@@ -45,6 +45,7 @@ router.post("/create", jsonParser, async (req, res) => {
         description: todoDescription,
         createdAt: todoCreatedAt,
         done: false,
+        favorited: false
     };
 
     const todo = await todoRepository.createAndSave(todoObject);
@@ -78,6 +79,7 @@ router.put("/edit/:id", jsonParser, async (req, res) => {
     todo.name = req.body.name ? req.body.name : todo.name;
     todo.description = req.body.description ? req.body.description : todo.description;
     todo.done = req.body.done ? req.body.done : todo.done;
+    todo.favorited = req.body.favorited ? req.body.favorited : todo.favorited;
 
     await todoRepository.save(todo)
 
@@ -99,7 +101,7 @@ router.delete("/delete/:id", async (req, res) => {
     }
 
     const todo = await todoRepository.fetch(todoID);
-  
+
     if (todo.createdAt === null) {
         res.status(404).json({
             error: "Todo with specified ID not found."
