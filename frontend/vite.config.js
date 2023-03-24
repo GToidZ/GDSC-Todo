@@ -15,10 +15,20 @@ export default defineConfig({
         webFonts({
           provider: 'google',
           fonts: {
-            sans: 'Kanit'
+            sans: 'Poppins'
           }
         }),
-      ]
+      ],
+      theme: {
+        colors: {
+          'goodo': {
+            'blue': '#4285F4',
+            'red': '#DB4437',
+            'yellow': '#F4B400',
+            'green': '#0F9D58'
+          }
+        }
+      }
     }),
     preact()
   ],
