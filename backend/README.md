@@ -62,3 +62,42 @@ by changing `NODE_ENV`'s value to `production`. Then execute,
 ```
 yarn start
 ```
+
+# Endpoints
+
+## GET `/todo`
+Returns all todo in the Redis database, with the following schema:
+```
+[
+  { 
+    entityId: string,
+    name: string,
+    description: string,
+    createdAt: datetime,
+    done: boolean,
+    favorited: boolean
+  }, {...}, ...
+]
+```
+
+## POST `/todo/create`
+Takes a JSON form data and turns it into a new todo in Redis database, also returns a todo with the following schema:
+```
+{ 
+  entityId: string,
+  name: string,
+  description: string,
+  createdAt: datetime,
+  done: boolean,
+  favorited: boolean
+}
+```
+
+## PUT `/todo/edit/:id`
+Takes an `:id` query as `entityId` and updates the respective todo with data from JSON form data provided. 
+You can use the above schema to update an existing todo. 
+Also, returns the updated todo as JSON.
+
+## DELETE `/todo/delete/:id`
+Takes an `:id` query as `entityId` and deletes the respective todo.
+Also, returns the deleted todo as JSON.
