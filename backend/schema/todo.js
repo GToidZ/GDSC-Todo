@@ -5,7 +5,8 @@ const todoSchema = new Schema(Todo, {
   name: { type: 'string' },
   description: { type: 'string' },
   createdAt: { type: 'date', sortable: true },
-  done: { type: 'boolean' }
+  done: { type: 'boolean' },
+  favorited: { type: 'boolean' }
 }, { dataStructure: 'JSON' });
 
 export { Todo, todoSchema };
