@@ -484,6 +484,11 @@
   resolved "https://registry.yarnpkg.com/@unocss/core/-/core-0.50.4.tgz#f6d0ed9ea60db3661f750e2ef117ffab553fea1c"
   integrity sha512-k/8CdnO4w7f+QdvCpS3U5y6xApC4odiErkBKCCaGgBqOWkuTSL92TiBnffSEA2WepGm1+Mv4urIk20ocKYxbUQ==
 
+"@unocss/core@0.50.6":
+  version "0.50.6"
+  resolved "https://registry.yarnpkg.com/@unocss/core/-/core-0.50.6.tgz#7dd8b239bd7af6f0395b062c66a0e6dc79dd248c"
+  integrity sha512-WMIp8xr7YSlID2whqfRGLwagp59e6u4ckPACEpoDOW8sTeSPRZm54hxPhuWXD1SQuqcwHPMtM9nzGD8UOnqQxA==
+
 "@unocss/inspector@0.50.4":
   version "0.50.4"
   resolved "https://registry.yarnpkg.com/@unocss/inspector/-/inspector-0.50.4.tgz#a62db9eeafcaaf991137a1aa863451daf17313e2"
@@ -514,6 +519,14 @@
     "@unocss/core" "0.50.4"
     "@unocss/preset-mini" "0.50.4"
     "@unocss/preset-wind" "0.50.4"
+
+"@unocss/preset-web-fonts@^0.50.6":
+  version "0.50.6"
+  resolved "https://registry.yarnpkg.com/@unocss/preset-web-fonts/-/preset-web-fonts-0.50.6.tgz#710e5b06f01f421441c3b8c5cfc8acf9295a1b8e"
+  integrity sha512-81meQMAq2lOy7k5qHQZ2EGWN5iJQUJOLl8dc9dxIo1eZPgiZQruxTVr4AkNVH5LRFcjHs/1sDb2CYxAiakwTVg==
+  dependencies:
+    "@unocss/core" "0.50.6"
+    ofetch "^1.0.1"
 
 "@unocss/preset-wind@0.50.4":
   version "0.50.4"
@@ -685,6 +698,11 @@ delayed-stream@~1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/delayed-stream/-/delayed-stream-1.0.0.tgz#df3ae199acadfb7d440aaae0b29e2272b24ec619"
   integrity sha512-ZySD7Nf91aLB0RxL4KGrKHBXl7Eds1DAmEdcoVawXnLD7SDhpNgtuII2aAkg7a7QS41jxPSZ17p4VdGnMHk3MQ==
+
+destr@^1.2.2:
+  version "1.2.2"
+  resolved "https://registry.yarnpkg.com/destr/-/destr-1.2.2.tgz#7ba9befcafb645a50e76b260449c63927b51e22f"
+  integrity sha512-lrbCJwD9saUQrqUfXvl6qoM+QN3W7tLV5pAOs+OqOmopCCz/JkE05MHedJR1xfk4IAnZuJXPVuN5+7jNA2ZCiA==
 
 duplexer@^0.1.2:
   version "0.1.2"
@@ -939,6 +957,11 @@ nanoid@^3.3.4:
   resolved "https://registry.yarnpkg.com/nanoid/-/nanoid-3.3.4.tgz#730b67e3cd09e2deacf03c027c81c9d9dbc5e8ab"
   integrity sha512-MqBkQh/OHTS2egovRtLk45wEyNXwF+cokD+1YPf9u5VfJiRdAiRwB2froX5Co9Rh20xs4siNPm8naNotSD6RBw==
 
+node-fetch-native@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/node-fetch-native/-/node-fetch-native-1.0.2.tgz#de3651399fda89a1a7c0bf6e7c4e9c239e8d0697"
+  integrity sha512-KIkvH1jl6b3O7es/0ShyCgWLcfXxlBrLBbP3rOr23WArC66IMcU4DeZEeYEOwnopYhawLTn7/y+YtmASe8DFVQ==
+
 node-releases@^2.0.8:
   version "2.0.10"
   resolved "https://registry.yarnpkg.com/node-releases/-/node-releases-2.0.10.tgz#c311ebae3b6a148c89b1813fd7c4d3c024ef537f"
@@ -948,6 +971,15 @@ normalize-path@^3.0.0, normalize-path@~3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/normalize-path/-/normalize-path-3.0.0.tgz#0dcd69ff23a1c9b11fd0978316644a0388216a65"
   integrity sha512-6eZs5Ls3WtCisHWp9S2GUy8dqkpGi4BVSz3GaqiE6ezub0512ESztXUwUB6C6IKbQkY2Pnb/mD4WYojCRwcwLA==
+
+ofetch@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/ofetch/-/ofetch-1.0.1.tgz#68b410d4494e37fa67b99e9a60172ae447b2c44c"
+  integrity sha512-icBz2JYfEpt+wZz1FRoGcrMigjNKjzvufE26m9+yUiacRQRHwnNlGRPiDnW4op7WX/MR6aniwS8xw8jyVelF2g==
+  dependencies:
+    destr "^1.2.2"
+    node-fetch-native "^1.0.2"
+    ufo "^1.1.0"
 
 path-parse@^1.0.7:
   version "1.0.7"
@@ -1070,6 +1102,11 @@ totalist@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/totalist/-/totalist-3.0.0.tgz#4ef9c58c5f095255cdc3ff2a0a55091c57a3a1bd"
   integrity sha512-eM+pCBxXO/njtF7vdFsHuqb+ElbxqtI4r5EAvk6grfAFyJ6IvWlSkfZ5T9ozC6xWw3Fj1fGoSmrl0gUs46JVIw==
+
+ufo@^1.1.0:
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/ufo/-/ufo-1.1.1.tgz#e70265e7152f3aba425bd013d150b2cdf4056d7c"
+  integrity sha512-MvlCc4GHrmZdAllBc0iUDowff36Q9Ndw/UzqmEKyrfSzokTd9ZCy1i+IIk5hrYKkjoYVQyNbrw7/F8XJ2rEwTg==
 
 unconfig@^0.3.7:
   version "0.3.7"
