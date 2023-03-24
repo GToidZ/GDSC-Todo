@@ -14,6 +14,15 @@ You are required to install the following softwares before setting up.
 * `yarn` package manager
 * `Docker Engine` or `Docker Desktop` 
 
+## Setting Up Redis Instance
+
+To setup a Redis instance, it is recommended to use Docker.
+In your terminal execute,
+
+```
+docker run -d --name redis-stack -p 6379:6379 -p 8001:8001 redis/redis-stack:latest
+```
+
 ## Installing Dependencies
 
 To install dependencies for the backend module, 
@@ -32,10 +41,10 @@ or parse existing `yarn.lock` to download dependencies.
 Then, you should look at the `sample.env` file to create a new `.env` file
 or set your environment variables.
 
-|Variable|Description|
-|---|---|
-|`NODE_ENV`|Environment for the module upon launch. (`development` or `production`)|
-|`REDIS_CONNECTION_URL`|Connection URL for Redis. see: https://www.iana.org/assignments/uri-schemes/prov/redis|
+| Variable               | Description                                                                            |
+| ---------------------- | -------------------------------------------------------------------------------------- |
+| `NODE_ENV`             | Environment for the module upon launch. (`development` or `production`)                |
+| `REDIS_CONNECTION_URL` | Connection URL for Redis. see: https://www.iana.org/assignments/uri-schemes/prov/redis |
 
 ## Running in Development Mode
 
