@@ -1,14 +1,14 @@
 import axios from "axios";
 import { useContext, useEffect, useState } from "react";
 import ActivityList from "../components/ActivityList";
-import { todoModel } from "../models/todo"
+import { todoModel, API_LINK } from "../models/todo"
 
 const Activity = () => {
 
     const [data, setData] = useState<todoModel[]>([]);
     const getData = async () => {
         try {
-            const res = await axios.get("http://127.0.0.1:8080/todo");
+            const res = await axios.get(API_LINK + "/todo");
             setData(res.data);
         }
         catch (e) {
