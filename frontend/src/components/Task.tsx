@@ -2,7 +2,7 @@ import StarBorderIcon from '@mui/icons-material/StarBorder';
 import StarIcon from '@mui/icons-material/Star';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import { useState } from 'react';
-import { todoModel } from '../models/todo';
+import { todoModel, API_LINK } from '../models/todo';
 import axios from 'axios';
 
 interface props {
@@ -15,22 +15,18 @@ const Task = ({ todo, showDetail, taskDetailSet }: props) => {
 
     function clickHandler(job: string) {
         const data = {
-            entityId: "0",
-            name: todo!.name,
-            description: todo!.description,
-            createdAt: todo!.createdAt,
-            done: (job === "done" ? !todo!.done : todo!.done),
-            favorited: (job === "fav" ? !todo!.favorited : todo!.favorited)
+            done: (job === "done" ? !(todo!.done) : todo!.done),
+            favorited: (job === "fav" ? !(todo!.favorited) : todo!.favorited)
         }
 
         try {
             axios({
-                method: 'post',
-                url: `http://127.0.0.1:8080/todo/edit/${todo!.entityId}`,
+                method: 'put',
+                url: `${API_LINK}/todo/edit/${todo!.entityId}`,
                 data: data
             })
         } catch {
-            alert(`Error can't ${job} ${data.name}Todo!!!.`)
+            alert(`Error can't ${job} ${todo!.name}Todo!!!.`)
         }
     }
     const [filled, setFilled] = useState<boolean>(todo!.favorited)

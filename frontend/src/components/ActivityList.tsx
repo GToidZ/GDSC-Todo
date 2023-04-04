@@ -2,7 +2,7 @@ import Task from "./Task"
 import ActivityDetail from "./ActivityDetail"
 import { useContext, useEffect, useState } from 'react'
 import { todoModel } from "../models/todo"
-import {observer} from 'mobx-react'
+import { observer } from 'mobx-react'
 import ModificationStoresContext from "../stores/ModificationStores"
 
 interface props {
@@ -26,19 +26,19 @@ const ActivityList = observer(({ data }: props) => {
           Activity list
         </div>
         {data?.map((todo, id) => {
-          if (currentUrl.includes('active') && todo.done === false){
+          if (currentUrl.includes('active') && !todo.done) {
             return <Task key={id} todo={todo} showDetail={showDetailHandler} taskDetailSet={setTaskDetail} />
           }
-          else if (currentUrl.includes('important') && todo.favorited === true) {
+          else if (currentUrl.includes('important') && todo.favorited) {
             return <Task key={id} todo={todo} showDetail={showDetailHandler} taskDetailSet={setTaskDetail} />
           }
-          else if (currentUrl.includes('completed') && todo.done === true) {
+          else if (currentUrl.includes('completed') && todo.done) {
             return <Task key={id} todo={todo} showDetail={showDetailHandler} taskDetailSet={setTaskDetail} />
           }
         })}
       </div>
       <div className={`relative p-3 transform transition-all duration-500 ease-out ${showDetail || modification.open ? 'block translate-x-[0%]' : 'translate-x-[120%] absolute'}`} >
-        {modification.open?<ActivityDetail todo={modification.data} showDetail={()=>{modification.changeOpenState(false)}}/>:taskDetail && <ActivityDetail todo={taskDetail} showDetail={showDetailHandler}/> }
+        {modification.open ? <ActivityDetail todo={modification.data} showDetail={() => { modification.changeOpenState(false) }} /> : taskDetail && <ActivityDetail todo={taskDetail} showDetail={showDetailHandler} />}
       </div>
     </div>
   )

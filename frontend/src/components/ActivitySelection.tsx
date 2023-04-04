@@ -2,17 +2,18 @@ import React from "react";
 
 interface props {
     icon: React.ReactElement,
-    name: string
+    name: string,
+    minimized: boolean
 }
 
-const ActivitySelection = ({ icon, name }: props) => {
+const ActivitySelection = ({ icon, name, minimized }: props) => {
     const currentUrl = window.location.pathname
-    
+
     return (
-        <a href={`${name.toLowerCase().split(' ')[0]}`} className={`gap-3 ${currentUrl.includes(name.toLowerCase().split(' ')[0]) && 'bg-[#EBEBEB]'}`} >
-            <button className="flex">
+        <a href={`${name.toLowerCase().split(' ')[0]}`} className={`gap-3 rounded-lg ${currentUrl.includes(name.toLowerCase().split(' ')[0]) && 'bg-[#EBEBEB]'}`} >
+            <button className="flex p-2">
                 {icon}
-                <p className='ml-2'>{name}</p>
+                <p className={`ml-2 ${minimized ? "hidden" : ""}`}>{name}</p>
             </button>
         </a>
     )

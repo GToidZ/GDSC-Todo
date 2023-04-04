@@ -1,13 +1,12 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import ActivityList from "../components/ActivityList";
-import { mockdata } from "../mocks/TodoMock";
 import { todoModel } from "../models/todo"
 
 
 
 const Completed = () => {
-    const [data, setData] = useState<todoModel[]>(mockdata);
+    const [data, setData] = useState<todoModel[]>([]);
     const getData = async () => {
         try {
             const res = await axios.get("http://127.0.0.1:8080/todo");
@@ -18,11 +17,11 @@ const Completed = () => {
         }
     }
     useEffect(() => {
-        // getData();
-    }, [])
+        getData();
+    })
     return (
         <div className="p-3 w-full h-full">
-            <ActivityList data={data}/>
+            <ActivityList data={data} />
         </div>
     )
 }

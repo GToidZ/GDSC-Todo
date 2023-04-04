@@ -2,7 +2,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import SaveIcon from '@mui/icons-material/Save';
 import CloseIcon from '@mui/icons-material/Close';
 import CheckIcon from '@mui/icons-material/Check';
-import { todoModel } from '../models/todo';
+import { todoModel, API_LINK } from '../models/todo';
 import { useContext, useRef, useState, } from 'react';
 import ModificationStoresContext from '../stores/ModificationStores';
 import CancelIcon from '@mui/icons-material/Cancel';
@@ -16,17 +16,18 @@ interface props {
 }
 
 const ActivityDetail = observer(({ todo, showDetail }: props) => {
-  const description = useRef(null);
-  const name = useRef(null);
+  const description = useRef<HTMLTextAreaElement | null>(null);
+  const name = useRef<HTMLInputElement | null>(null);
   const modification = useContext(ModificationStoresContext)
   const [filled, setFilled] = useState<boolean>(todo!.favorited)
 
   function deleteHandler() {
     try {
       axios({
-        method: 'post',
-        url: `http://127.0.0.1:8080/todo/delete/${todo!.entityId}`,
+        method: 'delete',
+        url: `${API_LINK}/todo/delete/${todo!.entityId}`,
       })
+      modification.changeOpenState(false)
     } catch {
       alert(`Error delete Todo !!!.`)
     }
@@ -34,18 +35,18 @@ const ActivityDetail = observer(({ todo, showDetail }: props) => {
 
   function saveHandler(job: string) {
     const data = {
-      entityId: "0",
-      name: name.current,
-      description: description.current,
-      createdAt: job === "create" ? new Date() : todo!.createdAt,
+      name: name.current?.value,
+      description: description.current?.value,
       done: (job === "update" ? todo!.done : job === "create" ? false : true),
       favorited: filled
     }
 
+    console.log(data)
+
     try {
       axios({
-        method: 'post',
-        url: (job === "create" ? "http://127.0.0.1:8080/todo/create" : `http://127.0.0.1:8080/todo/edit/${todo!.entityId}`),
+        method: (job === "create" ? "post" : "put"),
+        url: (job === "create" ? `${API_LINK}/todo/create` : `${API_LINK}/todo/edit/${todo!.entityId}`),
         data: data
       })
     } catch {
@@ -62,7 +63,7 @@ const ActivityDetail = observer(({ todo, showDetail }: props) => {
         <div>
           <input type="text" className="outline-none bg-[#F4F4F4]" ref={name} defaultValue={modification.open ? "New todo" : todo!.name} />
         </div>
-        <div className='flex items-center justify-center mt-[0.05rem]' onClick={() => { setFilled(preFill => !preFill);}}>
+        <div className='flex items-center justify-center mt-[0.05rem]' onClick={() => { setFilled(preFill => !preFill); }}>
           {filled ? <StarIcon style={{ fill: '#F9BB07' }} /> : <StarBorderIcon />}
         </div>
       </div>
